@@ -12,6 +12,7 @@
     with_items:
     - vim
     - git
+    - tmux
     - rsync
     - zsh
 
