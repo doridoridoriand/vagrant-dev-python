@@ -7,14 +7,13 @@
 
   tasks:
   - name: install basic pkg
-    apt: name={{item}} state=installed
+    apt: name={{item}} state=installed update_cache=yes
     sudo: yes
     with_items:
     - vim
-    - git
-    - tmux
-    - rsync
     - zsh
+    - tmux
+    - git
 
   - name: install build python package
     sudo: yes
@@ -54,13 +53,5 @@
   - name: install pip
     sudo: yes
     shell: |
-      zsh
       wget https://bootstrap.pypa.io/get-pip.py
       python get-pip.py
-
-  - name: pip install pkgs
-    pip: name={{item}}
-    with_items:
-    - flask
-    - lxml
-    - uwsgi
