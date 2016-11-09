@@ -27,31 +27,16 @@
     - libreadline-dev
     - libsqlite3-dev
 
-  - name: install pyenv
-    args:
-      creates: ~/.pyenv
-    shell: |
-      git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-      ## add pyenv env
-      (
-          echo 'export PYENV_ROOT=~/.pyenv'
-          echo 'export PATH=$PYENV_ROOT/bin:$PATH'
-          echo 'eval "$(pyenv init -)"'
-      ) >> ~/.zshrc
-      source ~/.zshrc
-      (
-          echo 'export PYENV_ROOT=~/.pyenv'
-          echo 'export PATH=$PYENV_ROOT/bin:$PATH'
-          echo 'eval "$(pyenv init -)"'
-      ) >> ~/.bashrc
-      source ~/.bashrc
-      # install python
-      pyenv install {{python_version}}
-      pyenv rehash
-      pyenv global {{python_version}}
-
-  - name: install pip
+  - name: install python
     sudo: yes
-    shell: |
-      wget https://bootstrap.pypa.io/get-pip.py
-      python get-pip.py
+    apt: name={{item}} state=installed
+    with_items:
+      - python3
+
+  - name: install web middleware
+    sudo: yes
+    apt: name={{item}} state=installed update_cache=yes
+    with_items:
+     - nginx
+     - mysql-server
+     - redis-server
